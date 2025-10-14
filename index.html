@@ -1,134 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Joke Generator</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f2f5;
-            margin: 0;
-            text-align: center;
-        }
-        .container {
-            background-color: white;
-            padding: 2rem 3rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 90%;
-        }
-        h1 {
-            color: #1c1e21;
-            margin-bottom: 1.5rem;
-        }
-        .joke-area {
-            min-height: 100px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        #setup {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-        #punchline {
-            font-size: 1.1rem;
-            color: #555;
-            font-style: italic;
-            visibility: hidden; /* Hidden by default */
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-        #punchline.visible {
-            visibility: visible;
-            opacity: 1;
-        }
-        button {
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #166fe5;
-        }
-        button:disabled {
-            background-color: #a0a0a0;
-            cursor: not-allowed;
-        }
-        .loading {
-            font-style: italic;
-            color: #888;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wizarding Joke Book</title>
+
+  <!-- Magical Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Crimson+Pro:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ====== Overall Page ====== */
+    body {
+     
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Crimson Pro', serif;
+      margin: 0;
+      color: #3e2723;
+      overflow: hidden;
+    }
+
+    /* Subtle floating sparkles */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://i.imgur.com/zYzW9hN.png') repeat;
+      animation: sparkle 20s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes sparkle {
+      from { background-position: 0 0; }
+      to { background-position: 1000px 1000px; }
+    }
+
+    /* ====== Container ====== */
+    .container {
+      position: relative;
+      background: rgba(253, 245, 230, 0.95);
+      border: 5px solid #c6a664;
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(120, 90, 40, 0.4),
+                  inset 0 0 30px rgba(255, 223, 150, 0.5);
+      padding: 3rem;
+      width: 90%;
+      max-width: 650px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    /* ====== Magical Border Glow ====== */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -5px; left: -5px; right: -5px; bottom: -5px;
+      border-radius: 25px;
+      border: 3px solid rgba(255, 215, 0, 0.4);
+      filter: blur(6px);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    /* ====== Title ====== */
+    h1 {
+      font-family: 'Uncial Antiqua', cursive;
+      font-size: 2.8rem;
+      color: #4b2e05;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5),
+                   0 0 20px rgba(255, 215, 0, 0.2);
+      margin-bottom: 1.5rem;
+      animation: title-glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes title-glow {
+      from { text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+      to { text-shadow: 0 0 20px rgba(255, 215, 0, 0.9); }
+    }
+
+    /* ====== Joke Area ====== */
+    .joke-area {
+      min-height: 130px;
+      margin-bottom: 2rem;
+    }
+
+    #setup {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #3b2f2f;
+      transition: color 0.5s;
+    }
+
+    #punchline {
+      font-size: 1.3rem;
+      color: #5d4037;
+      font-style: italic;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    #punchline.visible {
+      opacity: 1;
+    }
+
+    /* ====== Button ====== */
+    button {
+      background: linear-gradient(135deg, #b8860b, #d4af37);
+      color: #fff8dc;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.1rem;
+      border: 2px solid #6e4b00;
+      border-radius: 8px;
+      padding: 14px 36px;
+      font-weight: bold;
+      cursor: pointer;
+      text-shadow: 0 0 6px #5e3b00;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #ffd700, #b8860b);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    button:disabled {
+      background: #d2b48c;
+      color: #7a6a57;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* ====== Floating Candle Effect Around Container ====== */
+    .candle {
+      position: absolute;
+      width: 6px;
+      height: 40px;
+      background: linear-gradient(to bottom, #fff9c4, #ffecb3);
+      border-radius: 3px;
+      box-shadow: 0 0 20px rgba(255, 250, 180, 0.7);
+      animation: float 5s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .candle:nth-child(1) { top: -30px; left: 10%; animation-delay: 0s; }
+    .candle:nth-child(2) { top: -40px; right: 10%; animation-delay: 1s; }
+    .candle:nth-child(3) { bottom: -30px; left: 15%; animation-delay: 2s; }
+    .candle:nth-child(4) { bottom: -30px; right: 15%; animation-delay: 3s; }
+
+    .loading {
+      font-style: italic;
+      color: #7e6b5a;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Random Joke Generator</h1>
-        <div class="joke-area">
-            <p id="setup" class="loading">Click the button to get a joke!</p>
-            <p id="punchline"></p>
-        </div>
-        <button id="jokeBtn">Get a New Joke</button>
+  <div class="container">
+    <!-- Floating Candles -->
+    <div class="candle"></div>
+    <div class="candle"></div>
+    <div class="candle"></div>
+    <div class="candle"></div>
+
+    <h1>The Wizarding Joke Book</h1>
+
+    <div class="joke-area">
+      <p id="setup" class="loading">Click the button to summon a joke!</p>
+      <p id="punchline"></p>
     </div>
 
-    <script>
-        const setupEl = document.getElementById('setup');
-        const punchlineEl = document.getElementById('punchline');
-        const jokeBtn = document.getElementById('jokeBtn');
+    <button id="jokeBtn">Summon a New Joke ✨</button>
+  </div>
 
-        const JOKE_API_URL = 'https://official-joke-api.appspot.com/random_joke';
+  <script>
+    const setupEl = document.getElementById('setup');
+    const punchlineEl = document.getElementById('punchline');
+    const jokeBtn = document.getElementById('jokeBtn');
 
-        async function getJoke() {
-            // 1. Show loading state and disable the button
-            setupEl.textContent = 'Fetching a joke...';
-            setupEl.classList.add('loading');
-            punchlineEl.classList.remove('visible');
-            punchlineEl.textContent = '';
-            jokeBtn.disabled = true;
+    const JOKE_API_URL = 'https://official-joke-api.appspot.com/random_joke';
 
-            try {
-                // 2. Fetch data from the API
-                const response = await fetch(JOKE_API_URL);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
+    async function getJoke() {
+      setupEl.textContent = 'Summoning a joke from the ether...';
+      setupEl.classList.add('loading');
+      punchlineEl.classList.remove('visible');
+      punchlineEl.textContent = '';
+      jokeBtn.disabled = true;
 
-                // 3. Display the joke setup
-                setupEl.textContent = data.setup;
-                setupEl.classList.remove('loading');
-                punchlineEl.textContent = data.punchline;
+      try {
+        const response = await fetch(JOKE_API_URL);
+        if (!response.ok) throw new Error(`Magical interference! Status: ${response.status}`);
+        const data = await response.json();
 
-                // 4. Reveal the punchline after a delay
-                setTimeout(() => {
-                    punchlineEl.classList.add('visible');
-                }, 3000); // 3-second delay
+        setupEl.textContent = data.setup;
+        setupEl.classList.remove('loading');
+        punchlineEl.textContent = data.punchline;
 
-            } catch (error) {
-                console.error("Failed to fetch joke:", error);
-                setupEl.textContent = 'Oops! Could not fetch a joke. Please try again.';
-            } finally {
-                // 5. Re-enable the button
-                jokeBtn.disabled = false;
-            }
-        }
+        setTimeout(() => {
+          punchlineEl.classList.add('visible');
+        }, 2000);
+      } catch (error) {
+        console.error("Spell failed:", error);
+        setupEl.textContent = 'Oops! The spell fizzled. Try again.';
+      } finally {
+        jokeBtn.disabled = false;
+      }
+    }
 
-        // Event listener for the button
-        jokeBtn.addEventListener('click', getJoke);
-    </script>
+    jokeBtn.addEventListener('click', getJoke);
+  </script>
 </body>
 </html>
